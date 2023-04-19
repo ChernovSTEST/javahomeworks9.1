@@ -1,7 +1,19 @@
 package ru.netology.java;
+
 public class Radio {
     private int currentStation;
+    private int maxStation;
     private int currentVolume;
+    private final int MAX_VOLUME = 100;
+    private final int MIN_VOLUME = 0;
+
+    public Radio() {
+        maxStation = 10;
+    }
+
+    public Radio(int maxStation) {
+        this.maxStation = maxStation;
+    }
 
     public int getCurrentStation() {
         return currentStation;
@@ -11,28 +23,18 @@ public class Radio {
         if (currentStation < 0) {
             return;
         }
-        if (currentStation > 9) {
+        if (currentStation >= maxStation) {
             return;
         }
         this.currentStation = currentStation;
     }
 
-    public int getCurrentVolume() {
-        return currentVolume;
-    }
-
-    public void setCurrentVolume(int currentVolume) {
-        if (currentVolume < 0) {
-            return;
-        }
-        if (currentVolume > 100) {
-            return;
-        }
-        this.currentVolume = currentVolume;
+    public int getMaxStation() {
+        return maxStation;
     }
 
     public void nextStation() {
-        if (currentStation == 9) {
+        if (currentStation == maxStation - 1) {
             currentStation = 0;
         } else {
             currentStation++;
@@ -41,20 +43,31 @@ public class Radio {
 
     public void prevStation() {
         if (currentStation == 0) {
-            currentStation = 9;
+            currentStation = maxStation - 1;
         } else {
             currentStation--;
         }
     }
 
+    public int getCurrentVolume() {
+        return currentVolume;
+    }
+
+    public void setCurrentVolume(int currentVolume) {
+        if (currentVolume < MIN_VOLUME || currentVolume > MAX_VOLUME) {
+            return;
+        }
+        this.currentVolume = currentVolume;
+    }
+
     public void increaseVolume() {
-        if (currentVolume < 100) {
+        if (currentVolume < MAX_VOLUME) {
             currentVolume++;
         }
     }
 
     public void decreaseVolume() {
-        if (currentVolume > 0) {
+        if (currentVolume > MIN_VOLUME) {
             currentVolume--;
         }
     }

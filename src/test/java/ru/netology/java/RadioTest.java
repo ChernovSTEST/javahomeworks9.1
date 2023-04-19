@@ -1,88 +1,121 @@
 package ru.netology.java;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RadioTest {
 
     @Test
-    public void testGetCurrentStation() {
+    public void shouldSetCurrentStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
         assertEquals(5, radio.getCurrentStation());
     }
 
     @Test
-    public void testSetCurrentStation() {
+    public void shouldNotSetCurrentStationIfBelowZero() {
         Radio radio = new Radio();
-        radio.setCurrentStation(10);
-        assertEquals(0, radio.getCurrentStation());
-
         radio.setCurrentStation(-1);
         assertEquals(0, radio.getCurrentStation());
     }
 
     @Test
-    public void testGetCurrentVolume() {
+    public void shouldNotSetCurrentStationIfAboveMax() {
+        Radio radio = new Radio();
+        radio.setCurrentStation(11);
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+
+    @Test
+    public void shouldSetCurrentVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
         assertEquals(50, radio.getCurrentVolume());
     }
 
     @Test
-    public void testSetCurrentVolume() {
+    public void shouldNotSetCurrentVolumeIfBelowMin() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(101);
-        assertEquals(0, radio.getCurrentVolume());
-
         radio.setCurrentVolume(-1);
         assertEquals(0, radio.getCurrentVolume());
     }
 
     @Test
-    public void testNextStation() {
+    public void shouldNotSetCurrentVolumeIfAboveMax() {
         Radio radio = new Radio();
-        radio.setCurrentStation(0);
-        radio.nextStation();
-        assertEquals(1, radio.getCurrentStation());
-
-        radio.setCurrentStation(9);
-        radio.nextStation();
-        assertEquals(0, radio.getCurrentStation());
+        radio.setCurrentVolume(101);
+        assertEquals(0, radio.getCurrentVolume());
     }
 
     @Test
-    public void testPrevStation() {
-        Radio radio = new Radio();
-        radio.setCurrentStation(9);
-        radio.prevStation();
-        assertEquals(8, radio.getCurrentStation());
-
-        radio.setCurrentStation(0);
-        radio.prevStation();
-        assertEquals(9, radio.getCurrentStation());
-    }
-
-    @Test
-    public void testIncreaseVolume() {
+    public void shouldIncreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
         radio.increaseVolume();
         assertEquals(51, radio.getCurrentVolume());
+    }
 
+    @Test
+    public void shouldNotIncreaseVolumeIfAlreadyMax() {
+        Radio radio = new Radio();
         radio.setCurrentVolume(100);
         radio.increaseVolume();
         assertEquals(100, radio.getCurrentVolume());
     }
 
     @Test
-    public void testDecreaseVolume() {
+    public void shouldDecreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
         radio.decreaseVolume();
         assertEquals(49, radio.getCurrentVolume());
+    }
 
+    @Test
+    public void shouldNotDecreaseVolumeIfAlreadyMin() {
+        Radio radio = new Radio();
         radio.setCurrentVolume(0);
         radio.decreaseVolume();
         assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
+    public void shouldSetNextStation() {
+        Radio radio = new Radio();
+        radio.setCurrentStation(5);
+        radio.nextStation();
+        assertEquals(6, radio.getCurrentStation());
+    }
+
+    @Test
+    public void shouldSetNextStationToFirstIfCurrentIsMax() {
+        Radio radio = new Radio();
+        radio.setCurrentStation(9);
+        radio.nextStation();
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    public void shouldSetPrevStation() {
+        Radio radio = new Radio();
+        radio.setCurrentStation(5);
+        radio.prevStation();
+        assertEquals(4, radio.getCurrentStation());
+    }
+
+    @Test
+    public void shouldSetPrevStationToLastIfCurrentIsZero() {
+        Radio radio = new Radio();
+        radio.setCurrentStation(0);
+        radio.prevStation();
+        assertEquals(9, radio.getCurrentStation());
+    }
+
+    @Test
+    public void testMaxStationConstructor() {
+        int expectedMaxStation = 15;
+        Radio radio = new Radio(expectedMaxStation);
+        assertEquals(expectedMaxStation, radio.getMaxStation());
     }
 }
